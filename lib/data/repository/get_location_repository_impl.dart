@@ -5,9 +5,18 @@ import 'package:weather_check/domain/repository/get_location_repository.dart';
 
 @Injectable(as: GetLocationRepository)
 class GetLocationRepositoryImpl implements GetLocationRepository {
-
   @override
   Future<LocationEntity> call() async {
+    //Bangladesh
+    // return LocationEntity(
+    //   latitude: 23.777176,
+    //   longitude: 90.399452,
+    // );
+    //italy
+    // return LocationEntity(
+    //   latitude: 41.87194,
+    //   longitude: 12.56738,
+    // );
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');

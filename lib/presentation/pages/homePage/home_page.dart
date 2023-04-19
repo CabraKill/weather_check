@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_check/domain/entities/homePageStates/home_page_state.dart';
 import 'package:weather_check/domain/entities/homePageStates/loaded_home_page_state.dart';
+import 'package:weather_check/domain/entities/homePageStates/loading_home_page_state.dart';
 import 'package:weather_check/infra/injections/injectable.dart';
 import 'package:weather_check/presentation/pages/homePage/home_page_controller.dart';
+import 'package:weather_check/presentation/widgets/graph_area.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -41,26 +43,47 @@ class _HomePageState extends State<HomePage> {
                         : MainAxisAlignment.end,
                     children: [
                       if (loaded)
-                        Text(
-                            'Latitude: ${pageState.weather.location.latitude} | Longitude: ${pageState.weather.location.longitude}'),
+                        GestureDetector(
+                          onTap: _pageController.toggleVisibility,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                  'Latitude: ${pageState.locationVisible ? pageState.weather.location.latitude : "-"} | Longitude: ${pageState.locationVisible ? pageState.weather.location.longitude : "-"}'),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                pageState.locationVisible
+                                    ? CupertinoIcons.eye
+                                    : CupertinoIcons.eye_slash_fill,
+                              )
+                            ],
+                          ),
+                        ),
                       if (pageState is LoadedHomePageState)
                         Builder(builder: (context) {
                           final airQuality = pageState.weather.airQuality;
 
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("So: ${airQuality.so2}"),
-                              Text("No: ${airQuality.no2}"),
-                              Text("Pm10: ${airQuality.pm10}"),
-                              Text("Pm25: ${airQuality.pm25}"),
-                              Text("O3: ${airQuality.o3}"),
-                              Text("Co: ${airQuality.co}"),
-                              Text("Nh3: ${airQuality.nh3}"),
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 50.0),
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxWidth: 500,
+                              ),
+                              child: GraphArea(
+                                gasAreaItemEntityList: _pageController
+                                    .getGasAreaItemList(airQuality),
+                              ),
+                            ),
                           );
                         }),
+                      if (pageState is LoadingHomePageState)
+                        Expanded(
+                          child: Center(
+                            child: const CupertinoActivityIndicator(),
+                          ),
+                        ),
                       CupertinoButton.filled(
                         child: Text('Update Location'),
                         onPressed: _pageController.onPressed,

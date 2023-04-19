@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:weather_check/domain/entities/usecase_response_entity.dart';
 import 'package:weather_check/domain/entities/weather_entity.dart';

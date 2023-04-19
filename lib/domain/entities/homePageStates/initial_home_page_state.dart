@@ -3,7 +3,22 @@ import 'package:weather_check/domain/entities/homePageStates/home_page_state.dar
 
 class InitialHomePageState extends Equatable implements HomePageState {
   @override
-  List<Object> get props => [];
+  final bool locationVisible;
+  @override
+  List<Object> get props => [
+        locationVisible,
+      ];
 
-  const InitialHomePageState();
+  const InitialHomePageState({
+    this.locationVisible = true,
+  });
+
+  @override
+  InitialHomePageState copyWith({
+    bool? locationVisible,
+  }) {
+    return InitialHomePageState(
+      locationVisible: locationVisible ?? this.locationVisible,
+    );
+  }
 }
