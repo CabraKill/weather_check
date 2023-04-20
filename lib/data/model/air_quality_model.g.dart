@@ -13,8 +13,3 @@ AirQualityModel _$AirQualityModelFromJson(Map<String, dynamic> json) =>
               AirQualityDetailsItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
-
-Map<String, dynamic> _$AirQualityModelToJson(AirQualityModel instance) =>
-    <String, dynamic>{
-      'list': instance.details,
-    };

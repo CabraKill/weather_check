@@ -6,6 +6,7 @@ class WeatherStatusEntity extends Equatable {
   final String name;
   final String description;
   final WeatherType type;
+  final String iconUrl;
 
   @override
   List<Object?> get props => [
@@ -13,6 +14,7 @@ class WeatherStatusEntity extends Equatable {
         name,
         description,
         type,
+        iconUrl,
       ];
 
   const WeatherStatusEntity({
@@ -20,5 +22,6 @@ class WeatherStatusEntity extends Equatable {
     required this.name,
     required this.description,
     required this.type,
+    required this.iconUrl,
   });
 }

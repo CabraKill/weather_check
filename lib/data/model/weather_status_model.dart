@@ -6,10 +6,14 @@ import 'package:weather_check/domain/entities/weather_status_entity.dart';
 import 'package:weather_check/infra/constants/weather_type_enum.dart';
 part 'weather_status_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  createToJson: false,
+)
 class WeatherStatusModel extends Equatable implements WeatherStatusEntity {
   @JsonKey(name: 'weather')
   final List<WeatherStatusTypeModel> weatherList;
+
+  final String icon;
 
   @override
   final int id;
@@ -23,11 +27,15 @@ class WeatherStatusModel extends Equatable implements WeatherStatusEntity {
   final WeatherType type;
 
   @override
+  String get iconUrl => 'http://openweathermap.org/img/wn/$icon.png';
+
+  @override
   List<Object?> get props => [
         id,
         name,
         description,
         type,
+        iconUrl,
       ];
 
   WeatherStatusModel({
@@ -35,7 +43,8 @@ class WeatherStatusModel extends Equatable implements WeatherStatusEntity {
   })  : id = _getId(weatherList),
         name = _getName(weatherList),
         description = _getDescription(weatherList),
-        type = _getWeatherTypeFromId(weatherList.first.id);
+        type = getWeatherTypeFromId(weatherList.first.id),
+        icon = weatherList.first.icon;
 
   factory WeatherStatusModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherStatusModelFromJson(json);
@@ -46,19 +55,11 @@ class WeatherStatusModel extends Equatable implements WeatherStatusEntity {
       name: name,
       description: description,
       type: type,
+      iconUrl: iconUrl,
     );
   }
 
-  static String _getDescription(List<WeatherStatusTypeModel> weatherList) =>
-      weatherList.first.description;
-
-  static String _getName(List<WeatherStatusTypeModel> weatherList) =>
-      weatherList.first.main;
-
-  static int _getId(List<WeatherStatusTypeModel> weatherList) =>
-      weatherList.first.id;
-
-  static WeatherType _getWeatherTypeFromId(int id) {
+  static WeatherType getWeatherTypeFromId(int id) {
     if (id >= 200 && id <= 232) {
       return WeatherType.thunderstorm;
     } else if (id >= 300 && id <= 321) {
@@ -77,4 +78,13 @@ class WeatherStatusModel extends Equatable implements WeatherStatusEntity {
       throw Exception('Unknown weather type');
     }
   }
+
+  static String _getDescription(List<WeatherStatusTypeModel> weatherList) =>
+      weatherList.first.description;
+
+  static String _getName(List<WeatherStatusTypeModel> weatherList) =>
+      weatherList.first.main;
+
+  static int _getId(List<WeatherStatusTypeModel> weatherList) =>
+      weatherList.first.id;
 }

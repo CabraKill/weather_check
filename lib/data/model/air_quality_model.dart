@@ -4,7 +4,9 @@ import 'package:weather_check/domain/entities/air_quality_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'air_quality_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  createToJson: false,
+)
 class AirQualityModel extends Equatable {
   @JsonKey(name: "list")
   final List<AirQualityDetailsItemModel> details;

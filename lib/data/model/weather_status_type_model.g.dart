@@ -12,12 +12,5 @@ WeatherStatusTypeModel _$WeatherStatusTypeModelFromJson(
       id: json['id'] as int,
       main: json['main'] as String,
       description: json['description'] as String,
+      icon: json['icon'] as String,
     );
-
-Map<String, dynamic> _$WeatherStatusTypeModelToJson(
-        WeatherStatusTypeModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'main': instance.main,
-      'description': instance.description,
-    };

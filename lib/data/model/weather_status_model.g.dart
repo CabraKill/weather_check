@@ -13,8 +13,3 @@ WeatherStatusModel _$WeatherStatusModelFromJson(Map<String, dynamic> json) =>
               (e) => WeatherStatusTypeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
-
-Map<String, dynamic> _$WeatherStatusModelToJson(WeatherStatusModel instance) =>
-    <String, dynamic>{
-      'weather': instance.weatherList,
-    };

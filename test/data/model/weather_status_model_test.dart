@@ -29,6 +29,77 @@ void main() {
       expect(result, expectedResult);
     });
   });
+
+  group('WeatherStatusModel.getWeatherTypeFromId Test', () {
+    test("should return correct WeatherType for id 200", () {
+      // Mock.
+      final expectedResult = WeatherType.thunderstorm;
+      // Action.
+      final result = WeatherStatusModel.getWeatherTypeFromId(200);
+      // Assert.
+      expect(result, expectedResult);
+    });
+
+    test("should return correct WeatherType for id 300", () {
+      // Mock.
+      final expectedResult = WeatherType.drizzle;
+      // Action.
+      final result = WeatherStatusModel.getWeatherTypeFromId(300);
+      // Assert.
+      expect(result, expectedResult);
+    });
+
+    test("should return correct WeatherType for id 500", () {
+      // Mock.
+      final expectedResult = WeatherType.rain;
+      // Action.
+      final result = WeatherStatusModel.getWeatherTypeFromId(500);
+      // Assert.
+      expect(result, expectedResult);
+    });
+
+    test("should return correct WeatherType for id 600", () {
+      // Mock.
+      final expectedResult = WeatherType.snow;
+      // Action.
+      final result = WeatherStatusModel.getWeatherTypeFromId(600);
+      // Assert.
+      expect(result, expectedResult);
+    });
+
+    test("should return correct WeatherType for id 700", () {
+      // Mock.
+      final expectedResult = WeatherType.atmosphere;
+      // Action.
+      final result = WeatherStatusModel.getWeatherTypeFromId(701);
+      // Assert.
+      expect(result, expectedResult);
+    });
+
+    test("should return correct WeatherType for id 800", () {
+      // Mock.
+      final expectedResult = WeatherType.clear;
+      // Action.
+      final result = WeatherStatusModel.getWeatherTypeFromId(800);
+      // Assert.
+      expect(result, expectedResult);
+    });
+
+    test("should return correct WeatherType for id 801", () {
+      // Mock.
+      final expectedResult = WeatherType.clouds;
+      // Action.
+      final result = WeatherStatusModel.getWeatherTypeFromId(801);
+      // Assert.
+      expect(result, expectedResult);
+    });
+
+    test("should thrown an Exception in WeatherType for id 900", () {
+      // Assert.
+      expect(() => WeatherStatusModel.getWeatherTypeFromId(900),
+          throwsA(isA<Exception>()));
+    });
+  });
 }
 
 WeatherStatusEntity _getEntityMock() {
@@ -37,6 +108,7 @@ WeatherStatusEntity _getEntityMock() {
     name: "main",
     description: "description",
     type: WeatherType.thunderstorm,
+    iconUrl: "http://openweathermap.org/img/wn/icon.png",
   );
 }
 
@@ -46,6 +118,7 @@ WeatherStatusModel _getModelMock() {
       id: 200,
       main: "main",
       description: "description",
+      icon: "icon",
     ),
   ]);
 }
@@ -57,7 +130,8 @@ Map<String, dynamic> _getJsonMock() {
         {
             "id": 200,
             "main": "main",
-            "description": "description"
+            "description": "description",
+            "icon": "icon"
         }
     ]
 }

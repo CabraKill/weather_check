@@ -2,7 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'air_quality_details_item_components_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  createToJson: false,
+)
 class AirQualityDetailsItemComponentsModel extends Equatable {
   final double co;
   final double no;

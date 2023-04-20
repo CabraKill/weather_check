@@ -27,79 +27,86 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Center(
         child: BlocBuilder<HomePageController, HomePageState>(
-            bloc: _pageController,
-            builder: (context, pageState) {
-              final showExpanded = _pageController.showExpanded;
-              final loaded = pageState is LoadedHomePageState;
+          bloc: _pageController,
+          builder: (context, pageState) {
+            final showExpanded = _pageController.showExpanded;
+            final loaded = pageState is LoadedHomePageState;
 
-              return SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize:
-                        showExpanded ? MainAxisSize.max : MainAxisSize.min,
-                    mainAxisAlignment: loaded
-                        ? MainAxisAlignment.spaceBetween
-                        : MainAxisAlignment.end,
-                    children: [
-                      if (loaded)
-                        GestureDetector(
-                          onTap: _pageController.toggleVisibility,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                  'Latitude: ${pageState.locationVisible ? pageState.weather.location.latitude : "-"} | Longitude: ${pageState.locationVisible ? pageState.weather.location.longitude : "-"}'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(
-                                pageState.locationVisible
-                                    ? CupertinoIcons.eye
-                                    : CupertinoIcons.eye_slash_fill,
-                              )
-                            ],
-                          ),
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize:
+                      showExpanded ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisAlignment: loaded
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.end,
+                  children: [
+                    if (loaded)
+                      GestureDetector(
+                        onTap: _pageController.toggleVisibility,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                                'Latitude: ${pageState.locationVisible ? pageState.weather.location.latitude : "-"} | Longitude: ${pageState.locationVisible ? pageState.weather.location.longitude : "-"}'),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              pageState.locationVisible
+                                  ? CupertinoIcons.eye
+                                  : CupertinoIcons.eye_slash_fill,
+                            )
+                          ],
                         ),
-                      if (pageState is LoadedHomePageState)
-                        Builder(builder: (context) {
-                          final airQuality = pageState.weather.airQuality;
+                      ),
+                    if (pageState is LoadedHomePageState)
+                      Builder(builder: (context) {
+                        final airQuality = pageState.weather.airQuality;
+                        final weatherStatus = pageState.weather.weatherStatus;
 
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                  "Weather: ${pageState.weather.weatherStatus.description}"),
-                              const SizedBox(
-                                height: 10,
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text("Weather: ${weatherStatus.description}"),
+                                Image.network(weatherStatus.iconUrl)
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxWidth: 700,
                               ),
-                              ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                  maxWidth: 700,
-                                ),
-                                child: GraphArea(
-                                  gasAreaItemEntityList: _pageController
-                                      .getGasAreaItemList(airQuality),
-                                ),
+                              child: GraphArea(
+                                gasAreaItemEntityList: _pageController
+                                    .getGasAreaItemList(airQuality),
                               ),
-                            ],
-                          );
-                        }),
-                      if (pageState is LoadingHomePageState)
-                        Expanded(
-                          child: Center(
-                            child: const CupertinoActivityIndicator(),
-                          ),
+                            ),
+                          ],
+                        );
+                      }),
+                    if (pageState is LoadingHomePageState)
+                      Expanded(
+                        child: Center(
+                          child: const CupertinoActivityIndicator(),
                         ),
-                      CupertinoButton.filled(
-                        child: Text('Update Location'),
-                        onPressed: _pageController.onPressed,
-                      )
-                    ],
-                  ),
+                      ),
+                    CupertinoButton.filled(
+                      child: Text('Update Location'),
+                      onPressed: _pageController.onPressed,
+                    )
+                  ],
                 ),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
