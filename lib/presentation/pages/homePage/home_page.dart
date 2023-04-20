@@ -65,17 +65,24 @@ class _HomePageState extends State<HomePage> {
                         Builder(builder: (context) {
                           final airQuality = pageState.weather.airQuality;
 
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 50.0),
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: 500,
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                  "Weather: ${pageState.weather.weatherStatus.description}"),
+                              const SizedBox(
+                                height: 10,
                               ),
-                              child: GraphArea(
-                                gasAreaItemEntityList: _pageController
-                                    .getGasAreaItemList(airQuality),
+                              ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 700,
+                                ),
+                                child: GraphArea(
+                                  gasAreaItemEntityList: _pageController
+                                      .getGasAreaItemList(airQuality),
+                                ),
                               ),
-                            ),
+                            ],
                           );
                         }),
                       if (pageState is LoadingHomePageState)
